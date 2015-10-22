@@ -16,22 +16,19 @@ public class MenuOptions : MonoBehaviour {
     Vector2 pos = new Vector2(0, 0);
     Rect rect;
     Vector2 pivot;
-    public int noPoints;
     int hit = 0;
+
+    // Added new parameters
+    public float radius;
+    public float patternSize;
+    public int noPoints;
+
     void Start()
     {
         UpdateSettings();
-        /* patterns[0] = (Texture2D)Resources.Load("/Patterns/piece1");
-           patterns[1] = (Texture2D)Resources.Load("/Patterns/piece2");
-           patterns[2] = (Texture2D)Resources.Load("/Patterns/piece3");
-           patterns[3] = (Texture2D)Resources.Load("/Patterns/piece4");
-           patterns[4] = (Texture2D)Resources.Load("/Patterns/piece5");
-           patterns[5] = (Texture2D)Resources.Load("/Patterns/piece6");
-           patterns[6] = (Texture2D)Resources.Load("/Patterns/piece7");
-           patterns[7] = (Texture2D)Resources.Load("/Patterns/piece8");
-           patterns[8] = (Texture2D)Resources.Load("/Patterns/piece9");
-           patterns[9] = (Texture2D)Resources.Load("/Patterns/piece10");
-           patterns[10] = (Texture2D)Resources.Load("/Patterns/piece11");*/
+        radius = 400f;
+        patternSize = 100f;
+        noPoints = 21;
     }
 
     void UpdateSettings()
@@ -119,11 +116,23 @@ public class MenuOptions : MonoBehaviour {
         hit = 10;
     }
 
+    public void adjustRadius(float newRadius)
+    {
+        radius = newRadius;
+    }
+    public void adjustPatternSize(float newPatternSize)
+    {
+        patternSize = newPatternSize;
+    }
+    public void adjustNoOfPoints(float newNoOfPoints)
+    {
+        noPoints =(int) newNoOfPoints;
+        Debug.Log(noPoints);
+    }
+
     void OnGUI()
     {
-        //float sizeValue = (2.0f * Mathf.PI) / theta_scale;
-        //noPoints = (int)sizeValue;
-        noPoints=21;
+        //noPoints=21;
         int degrees = 45;
 
         if (isClicked)
@@ -137,8 +146,8 @@ public class MenuOptions : MonoBehaviour {
                         UpdateSettings();
                     }
                     Matrix4x4 matrixBackup = GUI.matrix;
-                    Rect r2 = new Rect(new Vector2(400 * Mathf.Cos(degrees * Mathf.PI / 180) + Screen.width / 2, 400 * Mathf.Sin(degrees * Mathf.PI / 180) + Screen.height / 2), new Vector2(100f, 100f));
-                    GUIUtility.RotateAroundPivot(degrees+98, new Vector2(400 * Mathf.Cos(degrees * Mathf.PI / 180) + Screen.width / 2, 400 * Mathf.Sin(degrees * Mathf.PI / 180) + Screen.height / 2));
+                    Rect r2 = new Rect(new Vector2(radius * Mathf.Cos(degrees * Mathf.PI / 180) + Screen.width / 2, radius * Mathf.Sin(degrees * Mathf.PI / 180) + Screen.height / 2), new Vector2(patternSize, patternSize));
+                    GUIUtility.RotateAroundPivot(degrees+98, new Vector2(radius * Mathf.Cos(degrees * Mathf.PI / 180) + Screen.width / 2, radius * Mathf.Sin(degrees * Mathf.PI / 180) + Screen.height / 2));
                     GUI.DrawTexture(r2, patterns[hit]);
                     GUI.matrix = matrixBackup;
                     degrees += 18;
