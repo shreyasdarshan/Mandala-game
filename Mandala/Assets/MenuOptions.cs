@@ -1,50 +1,149 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MenuOptions : MonoBehaviour {
-    public float theta_scale = 0.01f;        //Set lower to add more points
-    public int size; //Total number of points in circle
-    public float radius = 3f;
-    LineRenderer lineRenderer;
-    public Color c1 = Color.black;
-    public Color c2 = new Color(1, 1, 1, 0);
+    
     public GameObject canvasSheet;
+    public Texture2D[] patterns;
+    //ArrayList  patterns= new ArrayList();
+    private bool isClicked = false;
+    private int ClickCounter = 0;
 
-    public void DrawCircle()
+    public float angle = 0;
+    public Vector2 size = new Vector2(128, 128);
+    public Vector2 relativePosition = new Vector2(0, 0);
+    Vector2 pos = new Vector2(0, 0);
+    Rect rect;
+    Vector2 pivot;
+    public int noPoints;
+    int hit = 0;
+    void Start()
     {
-        float sizeValue = (2.0f * Mathf.PI) / theta_scale;
-        size = (int)sizeValue;
-        size++;
-        lineRenderer = gameObject.AddComponent<LineRenderer>();
-        //lineRenderer.material = new Material(Shader.Find("Materials/Menu"));
-        lineRenderer.SetWidth(0.02f, 0.02f); //thickness of line
-        lineRenderer.SetVertexCount(size);
+        UpdateSettings();
+        /* patterns[0] = (Texture2D)Resources.Load("/Patterns/piece1");
+           patterns[1] = (Texture2D)Resources.Load("/Patterns/piece2");
+           patterns[2] = (Texture2D)Resources.Load("/Patterns/piece3");
+           patterns[3] = (Texture2D)Resources.Load("/Patterns/piece4");
+           patterns[4] = (Texture2D)Resources.Load("/Patterns/piece5");
+           patterns[5] = (Texture2D)Resources.Load("/Patterns/piece6");
+           patterns[6] = (Texture2D)Resources.Load("/Patterns/piece7");
+           patterns[7] = (Texture2D)Resources.Load("/Patterns/piece8");
+           patterns[8] = (Texture2D)Resources.Load("/Patterns/piece9");
+           patterns[9] = (Texture2D)Resources.Load("/Patterns/piece10");
+           patterns[10] = (Texture2D)Resources.Load("/Patterns/piece11");*/
+    }
 
+    void UpdateSettings()
+    {
+        pos = new Vector2(Screen.width/2, Screen.height/2);
+        //rect = new Rect(pos.x - size.x * 0.5f, pos.y - size.y * 0.5f, size.x, size.y);
+        //pivot = new Vector2(rect.xMin + rect.width * 0.5f, rect.yMin + rect.height * 0.5f);
+    }
 
-        Vector3 pos;
-        float theta = 0f;
-        for (int i = 0; i < size; i++)
+    public void drawPattern1()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 0;
+    }
+    public void drawPattern2()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 1;
+    }
+    public void drawPattern3()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 2;
+    }
+    public void drawPattern4()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 3;
+    }
+    public void drawPattern5()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 4;
+    }
+    public void drawPattern6()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 5;
+    }
+    public void drawPattern7()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 6;
+    }
+    public void drawPattern8()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 7;
+    }
+    public void drawPattern9()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 8;
+    }
+    public void drawPattern10()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 9;
+    }
+    public void drawPattern11()
+    {
+        isClicked = true;
+        ClickCounter++;
+        Debug.Log(ClickCounter);
+        hit = 10;
+    }
+
+    void OnGUI()
+    {
+        //float sizeValue = (2.0f * Mathf.PI) / theta_scale;
+        //noPoints = (int)sizeValue;
+        noPoints=21;
+        int degrees = 45;
+
+        if (isClicked)
         {
-            theta += (2.0f * Mathf.PI * theta_scale);
-            float x = radius * Mathf.Cos(theta);
-            float y = radius * Mathf.Sin(theta);
-            x += canvasSheet.transform.position.x;
-            y += canvasSheet.transform.position.y;
-            float z = canvasSheet.transform.position.z - 0.1f;
-            pos = new Vector3(x, y, z);
-            lineRenderer.SetColors(c1, c1);
-            lineRenderer.SetPosition(i, pos);
+            if (ClickCounter >= 1)
+            {
+                for (int i = 0; i < noPoints; i++)
+                {
+                    if (Application.isEditor)
+                    {
+                        UpdateSettings();
+                    }
+                    Matrix4x4 matrixBackup = GUI.matrix;
+                    Rect r2 = new Rect(new Vector2(400 * Mathf.Cos(degrees * Mathf.PI / 180) + Screen.width / 2, 400 * Mathf.Sin(degrees * Mathf.PI / 180) + Screen.height / 2), new Vector2(100f, 100f));
+                    GUIUtility.RotateAroundPivot(degrees+98, new Vector2(400 * Mathf.Cos(degrees * Mathf.PI / 180) + Screen.width / 2, 400 * Mathf.Sin(degrees * Mathf.PI / 180) + Screen.height / 2));
+                    GUI.DrawTexture(r2, patterns[hit]);
+                    GUI.matrix = matrixBackup;
+                    degrees += 18;
+                }
+            }
         }
     }
-    // Use this for initialization
-    void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
-
 }
